@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Type Component</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+        // 1. 반환값만 ReactElement에서 정의해서 반환하면 된다.
+        // 2. 앞글자를 대문자로 정의
+        // state, 라이프사이클 api 사용 불가 -> hooks를 제공해 문제 해결
+        function Title() {
+            return (
+                <h1>Function Component</h1>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById('root')).render(<Title/>);
+    </script>
+</body>
+</html>
