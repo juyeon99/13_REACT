@@ -21,10 +21,9 @@
         const answer = parseInt(prompt('리엑트가 재밌나요?\n1. 많이 재미있다.\n2. 조금 재미있다.'));
         console.log(answer);
 
-        /*
-            1. 랜더링 시 조건 비교 후 조건부 랜더링하기
-               -> 복잡한 경우에는 root 부분이 복잡해지기 때문에 권장 X
-        */
+        
+        // 1. 랜더링 시 조건 비교 후 조건부 랜더링하기
+        //    -> 복잡한 경우에는 root 부분이 복잡해지기 때문에 권장 X
         // const positiveElement = <h1>앞으로 점점 더 재미있어질거에요^^</h1>
         // const negativeElement = <h1>천천히 앞의 내용을 복습해보세요^^</h1>
         // root.render(
@@ -45,7 +44,7 @@
         // const element = (answer === 1) ? (<h1>앞으로 점점 더 재미있어질거에요^^</h1>) : (<h1>천천히 앞의 내용을 복습해보세요^^</h1>);
         // root.render(element);
 
-        // 2-3. $$ 연산자를 이용한 조건부 엘리먼트 생성
+        // 2-3. && 연산자를 이용한 조건부 엘리먼트 생성
         const element = answer === 1 && <h1>앞으로 점점 더 재미있어질거에요^^</h1>
         console.log(element);
         root.render(element);
