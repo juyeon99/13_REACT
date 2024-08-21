@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifecycle Method For Error</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+        class ErrorBounder extends React.Component{
+            state = {
+                hasError: false
+            }
+
+            static getDerivedStateFromError(error) {
+                /*
+                    매개변수로 오류를 전달 받고 갱신된 state값을 반드시 반환
+
+                    주의점: render 단계에서 호출이 되기 때문에 부수적인 효과를 여기서는 발생시키면 안된다.
+                */
+                // 랜더링 중에 에러가 발생하므로 hasError가 아닌 다른 state를 변경하게 되면 무한루프에 빠짐
+                // getDerivedState가 동작 -> setState() -> Error 발생 -> getDerivedStat() 동작
+
+                console.log('getDerivedStateFromError');
+                
+                return {hasError: true} // hasError를 true로 바꾼 state를 리턴
+            }
+
+            render() {
+                if (this.state.hasError) {
+                    return (
+                        <>
+                            <h1>에러 발생</h1>
+                            <h3>에러 페이지</h3>
+                        </>
+                    )
+                }
+                return this.props.children; // 별다른 엘리먼트 추가를 하지 않고 자식 컴포넌트를 내보냄
+            }
+        }
+        class TimePrinter extends React.Component {
+            state = {
+                now: new Date().toLocaleTimeString()  // 초기값 설정
+            };
+
+            render() {
+                return (
+                    <>
+                        <button onClick={() => this.setState({now: new Date().toLocaleTimeString()})}>현재 시간 확인하기</button>
+                        <h1>{this.states.now}</h1>   {/* state -> states로 바꿔서 임의로 에러 발생 시키기 */}
+                    </>
+                );
+            }
+        }
+
+        class App extends React.Component {
+            render() {
+                return(
+                    <ErrorBounder><TimePrinter/></ErrorBounder>
+                );
+            }
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
