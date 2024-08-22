@@ -12,7 +12,7 @@
     <div id = "root"></div>
 
     <script type = "text/babel">
-        class ErrorBounder extends React.Component{
+        class ErrorBoundary extends React.Component{
             state = {
                 hasError: false
             }
@@ -43,6 +43,7 @@
                 return this.props.children; // 별다른 엘리먼트 추가를 하지 않고 자식 컴포넌트를 내보냄
             }
         }
+        
         class TimePrinter extends React.Component {
             state = {
                 now: new Date().toLocaleTimeString()  // 초기값 설정
@@ -61,7 +62,7 @@
         class App extends React.Component {
             render() {
                 return(
-                    <ErrorBounder><TimePrinter/></ErrorBounder>
+                    <ErrorBoundary><TimePrinter/></ErrorBoundary>
                 );
             }
         }
