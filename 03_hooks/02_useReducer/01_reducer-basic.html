@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>useReducer</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+        // 1. useState를 쓸 때 (각자의 컴포넌트 안에서 state를 관리(수정)할 때)
+        // const {useState} = React;
+
+        // function Counter() {
+        //     const [state, setState] = useState({value: 0});
+
+        //     return (
+        //         <>
+        //             <h1>count: {state.value}</h1>
+        //             <button onClick={() => setState({value: state.value - 1})}>- 1</button>
+        //             <button onClick={() => setState({value: state.value + 1})}>+ 1</button>
+        //         </>
+        //     );
+        // }
+
+        const {useReducer} = React;
+
+        /*
+            2. useReducer를 사용할 때
+            -> 재사용 가능, 유지보수 용이, 복잡한 상태 관리 용이
+
+            useReducer의 특징
+            컴포넌트 내부에서 상태관리를 하지 않고 외부 함수에서 상태관리 방법 지정
+
+            1. Dispatch: 요구 전달 (state 변경)
+            2. Action: 요구 (Dispatch에 담아서 보내는 우리가 해야 될 행위)
+            3. Reducer: Dispatch에 담긴 Action(요구)대로 state를 변경해준다.
+        */
+        function myReducer(state, action /* => ex) type: 'DECREMENT' */) {  
+            // setState와 같은 역할(state를 수정하는 역할)이지만 컴포넌트 밖에 분리시키거나 다른 파일에 모아놓음.
+            switch(action.type) {
+                case 'DECREMENT': console.log(state);
+                                  return {value: state.value - 1}
+                case 'INCREMENT': console.log(state);
+                                  return {value: state.value + 1}
+                default: console.log(state);
+                         return state;
+            }
+        }
+
+        // useReducer를 이용하여 컴포넌트 내에서 직접적으로 state를 수정하지 X
+        function Counter() {
+            // const [state, setState] = useState({value: 0});
+            const [state, dispatch] = useReducer(myReducer, {value: 0 /* => 관리할 state 값 */});
+
+            return (
+                <>
+                    <h1>counter: {state.value}</h1>
+                    <button onClick={() => dispatch({type: 'DECREMENT'})}>- 1</button>
+                    <button onClick={() => dispatch({type: 'INCREMENT'})}>+ 1</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Counter/>);
+    </script>
+</body>
+</html>
