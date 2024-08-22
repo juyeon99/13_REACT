@@ -24,7 +24,7 @@
                     주의점: render 단계에서 호출이 되기 때문에 부수적인 효과를 여기서는 발생시키면 안된다.
                 */
                 // 랜더링 중에 에러가 발생하므로 hasError가 아닌 다른 state를 변경하게 되면 무한루프에 빠짐
-                // getDerivedState가 동작 -> setState() -> Error 발생 -> getDerivedStat() 동작
+                // getDerivedState()가 동작 -> setState() -> Error 발생 -> getDerivedState() 동작
 
                 console.log('getDerivedStateFromError');
                 
