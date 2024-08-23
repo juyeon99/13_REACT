@@ -34,8 +34,12 @@
 
             const onClickHandler = () => {
                 alert(`username: ${username}\npassword: ${password}`);
-                setUsername('');
-                setPassword('');
+
+                const resetForm = {
+                    username: '',
+                    password: ''
+                }
+                setForm(resetForm);
             }
 
             return (
