@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Input Team Name</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+        const {useReducer} = React;
+
+        function inputReducer (state, action) {
+            return {
+                [action.name]: action.value
+            }
+        }
+
+        function buttonReducer (state, action){
+            return {
+                value: action
+            }
+        }
+
+        function ChangeTeamName() {
+            const onChangeHandler = e => dispatch(e.target);
+
+            const [teamName, dispatch] = useReducer(inputReducer, {value: ''});
+            const [newTeamName, dispatch2] = useReducer(buttonReducer, {value: ''});
+
+            return (
+                <>
+                    <h1>{newTeamName.value}</h1>
+                    <label>팀명 : </label>
+                    <input type="text" name='value' onChange={onChangeHandler}/>
+                    <button onClick={() => dispatch2(teamName.value)}>변경</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<ChangeTeamName/>);
+    </script>
+</body>
+</html>

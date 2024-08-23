@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>useReducer Example</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+        const {useReducer, useState} = React;
+
+        function namesReducer(state, action) {
+            return action.names;    // 배열 리턴
+        }
+
+        function inputTextReducer(state, action) {
+            return {    // 객체 리턴
+                text: action.value
+            }
+        }
+
+        function nextIdReducer(state, action) {
+            return {
+                id: action
+            }
+        }
+
+        function App() {
+            const [names, namesDispatch] = useReducer(namesReducer, [
+                {id: 1, name: '홍길동'},
+                {id: 2, name: '유관순'},
+                {id: 3, name: '이순신'},
+            ]);
+            const [inputText, inputTextDispatch] = useReducer(inputTextReducer, {text: ''});
+            const [nextId, nextIdDispatch] = useReducer(nextIdReducer, {id: 4});
+
+            const onChangeHandler = e => inputTextDispatch(e.target);
+            const onClickHandler = () => {
+                const namesCopy = names.concat({id: nextId.id, name: inputText.text});
+                namesDispatch({names: namesCopy});
+
+                nextIdDispatch({id: nextId + 1});
+                inputTextDispatch({name: 'text', value: ''});
+            }
+
+            const onRemove = (id) => {
+                const updatedNames = names.filter(name => name.id !== id);
+                namesDispatch({names: updatedNames});
+            }
+
+            const nameList = names.map(name => <li key={name.id} onDoubleClick={() => onRemove(name.id)}>{name.name}</li>);
+
+            return (
+                <ul>
+                    <input name='text' value={inputText.text} onChange={onChangeHandler}/>
+                    <button onClick={onClickHandler}>추가</button>
+                    {nameList}
+                </ul>
+            );
+        }
+ 
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
