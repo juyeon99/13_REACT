@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>useCallback - Problem Statement</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+        const {useState, useEffect} = React;
+
+        function App() {
+            const[number, setNumber] = useState(0);
+            const[toggle, setToggle] = useState(false);
+
+            const printNumber = () => {
+                console.log('current number: ', number);
+            }
+
+            /*
+                number/toggle의 state가 변경될 때 매번 함수가 다시 생성되어 반환되기 때문에
+                useEffect에서는 매번 해당 지역 변수에 변화가 있다고 인지 => BAD
+            */
+            useEffect(() => {
+                console.log('printNumber 값 변화 감지');
+            }, [printNumber]);  // number/toggle 값 변할 때마다 항상 실행됨 => BAD
+
+            return (
+                <>
+                    <input 
+                        type="number"
+                        value={number}
+                        onChange={e => setNumber(e.target.value)}/>
+                    <button onClick={() => setToggle(!toggle)}>{String(toggle)}</button><br/> {/* JSX에서는 boolean값을 문자열로 바꾸어야 화면에 표시 가능 */}
+                    <button onClick={printNumber}>PrintNumberState</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
