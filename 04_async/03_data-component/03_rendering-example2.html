@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Rendering Example 2</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        .item {
+            background-color: powderblue;
+            border: 1px dotted black;
+            width: 650px;
+            display: block;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+        const {useState, useEffect} = React;
+
+        function Title() {
+            return <h1>사진 목록</h1>
+        }
+
+        function ItemList() {
+            const [photos, setPhotos] = useState([]);
+
+            useEffect(() => {
+                fetch('https://jsonplaceholder.typicode.com/photos')
+                .then(response => response.json())
+                .then(res => setPhotos(res));
+            }, []);
+
+            return (
+                <>
+                    {photos.map(photo => <Item key={photo.id} photo={photo}/>)}
+                </>
+            );
+        }
+
+        function Item({photo}) {
+            return (
+                <>
+                    <div className='item'>
+                        <h3>id: {photo.id}<br/></h3>
+                        <p>
+                            <b>albumId: </b>{photo.albumId}<br/>
+                            <b>title: </b>{photo.title}<br/>
+                            <img src={photo.url} style={{width: '100px'}}/>
+                        </p>    
+                    </div>
+                </>
+            );
+        }
+
+        function App() {
+            return (
+                <>
+                    <Title/>
+                    <ItemList/>
+                </>
+            );
+        }
+        
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
