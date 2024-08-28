@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';   // 컴포넌트형, 함수형 �
 function Menu() {
     const [menuList, setMenuList] = useState([]);
     const [searchValue, setSearchValue] = useState('');
-    const navigate = useNavigate();
+    const navigate = useNavigate();     // 함수형
 
     // Menu 컴포넌트가 마운트 되기 전에 데이터를 가져와서 state에 담기
     useEffect(() => {
@@ -24,7 +24,7 @@ function Menu() {
     const onClickHandler = () => {
         // console.log(searchValue);
 
-        navigate(`/menu/search?menuName=${searchValue}`);
+        navigate(`/menu/search?menuName=${searchValue}`);   // 함수형
     }
 
     return (
