@@ -1,7 +1,7 @@
 function Main() {
     return (
         <div>
-            <h1>메인화면</h1>
+            <h1>메인 화면</h1>
         </div>
     );
 }
